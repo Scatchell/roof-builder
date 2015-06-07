@@ -1,0 +1,23 @@
+for i=1,10 do
+    if turtle.detectDown() then
+        print("Down detected, moving...")
+        turtle.digDown()
+        turtle.down()
+    end
+end
+
+print("Done digging down, moving forward...")
+turtle.dig()
+turtle.forward()
+turtle.dig()
+turtle.forward()
+turtle.dig()
+turtle.forward()
+
+print("Coming back up...")
+for i=1,10 do
+    turtle.digUp()
+    turtle.up()
+end
+
+
