@@ -1,0 +1,49 @@
+function down()
+    if turtle.down() then
+        blocksMoved['d'] = blocksMoved['d'] + 1
+    end
+end
+
+function forward()
+    if turtle.forward() then
+        blocksMoved['f'] = blocksMoved['f'] + 1
+    end
+end
+
+function digDown()
+    turtle.digDown()
+    down()
+end
+
+function findBlockBelow()
+    while not turtle.detectDown() do
+        down()
+    end
+
+    digDown()
+    digDown()
+    digDown()
+end
+
+function moveAway(numOfBlocks)
+    blocksMoved = {}
+    blocksMoved['u'] = 0
+    blocksMoved['d'] = 0
+    blocksMoved['f'] = 0
+    blocksMoved['r'] = 0
+    blocksMoved['l'] = 0
+
+    for i=1,numOfBlocks do
+        forward()
+    end
+end
+
+function returnToOriginalPosition()
+    for i=1,blocksMoved['d'] do
+        turtle.up()
+    end
+
+    for i=1,blocksMoved['f'] do
+        turtle.back()
+    end
+end
