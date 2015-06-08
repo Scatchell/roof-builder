@@ -1,0 +1,6 @@
+describe("a test", function()
+    require("test")
+    it("tests insulate block does not update environment", function()
+        assert.is_true(false)
+    end)
+end)
