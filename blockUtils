@@ -1,0 +1,3 @@
+function isValidBlockType(blockName)
+    return (blockName == "minecraft:dirt" or blockName == "minecraft:cobblestone" or blockName == "minecraft:stone")
+end

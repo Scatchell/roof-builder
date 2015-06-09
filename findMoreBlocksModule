@@ -1,3 +1,5 @@
+os.loadAPI("blockUtils")
+
 function down()
     if turtle.down() then
         blocksMoved['d'] = blocksMoved['d'] + 1
@@ -5,6 +7,7 @@ function down()
 end
 
 function forward()
+    turtle.dig()
     if turtle.forward() then
         blocksMoved['f'] = blocksMoved['f'] + 1
     end
@@ -15,11 +18,24 @@ function digDown()
     down()
 end
 
+function buildableBlockBelow()
+    local blockExists, blockDetails = turtle.inspectDown()
+    print(blockExists)
+    if not blockExists then
+        return false
+    else
+        local blockName = blockDetails['name']
+        print(blockName)
+        return (blockUtils.isValidBlockType(blockName))
+    end
+end
+
 function findBlockBelow()
-    while not turtle.detectDown() do
-        down()
+    while not buildableBlockBelow() do
+        digDown()
     end
 
+    --go down a bit more to be safe
     digDown()
     digDown()
     digDown()
@@ -40,6 +56,7 @@ end
 
 function returnToOriginalPosition()
     for i=1,blocksMoved['d'] do
+        turtle.digUp()
         turtle.up()
     end
 

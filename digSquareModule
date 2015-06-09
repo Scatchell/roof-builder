@@ -1,6 +1,11 @@
+--keep track of movement and any failed forwards or backwards, execute at the end to make sure you return to the same position
+
 function forward()
     turtle.dig()
-    turtle.forward()
+    while (not turtle.forward()) do
+        turtle.dig()
+        failedBlockMoves['f'] = failedBlockMoves['f'] + 1
+    end
 end
 
 function digAround(squareWidth)
@@ -29,12 +34,25 @@ function digExpandingSquares(times)
     end
 end
 
+function tryDown()
+    turtle.digDown()
+    if (not turtle.down()) then
+        failedBlockMoves['d'] = failedBlockMoves['d'] + 1
+    end
+end
+
 function digSquare(width, depth)
+    failedBlockMoves = {}
+    failedBlockMoves['u'] = 0
+    failedBlockMoves['d'] = 0
+    failedBlockMoves['f'] = 0
+    failedBlockMoves['r'] = 0
+    failedBlockMoves['l'] = 0
+
     print("digging square of width: ", width, " and depth: ", depth)
 
     for i=1,depth do
-        turtle.digDown()
-        turtle.down()
+        tryDown()
         digExpandingSquares(width)
     end
 
@@ -42,5 +60,5 @@ function digSquare(width, depth)
         turtle.digUp()
         turtle.up()
     end
+--at end, execute all failed moves
 end
-

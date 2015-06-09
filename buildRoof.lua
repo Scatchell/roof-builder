@@ -1,5 +1,6 @@
 os.loadAPI("digSquareModule")
 os.loadAPI("findMoreBlocksModule")
+os.loadAPI("blockUtils")
 
 local args = { ... }
 if #args ~= 2 then
@@ -14,7 +15,7 @@ function slotItemIsBuildable(slot)
         return false
     else
         local slotItemName = turtle.getItemDetail(slot)['name']
-        return (slotItemName == "minecraft:dirt" or slotItemName == "minecraft:cobblestone")
+        return (blockUtils.isValidBlockType(slotItemName))
     end
 end
 
@@ -55,7 +56,7 @@ function forward()
 
             findMoreBlocksModule.moveAway(widestLayer + 3)
             findMoreBlocksModule.findBlockBelow()
-            digSquareModule.digSquare(4, 7)
+            digSquareModule.digSquare(6, 10)
 
             print('Got blocks, now returning...')
             findMoreBlocksModule.returnToOriginalPosition()
@@ -64,7 +65,7 @@ function forward()
         end
     end
 
-    --logic here to pause turtle and wait for resources, or go and consume more resources
+    turtle.dig()
     turtle.forward()
     turtle.placeDown()
 end
