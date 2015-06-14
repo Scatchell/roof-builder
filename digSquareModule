@@ -1,4 +1,5 @@
 --keep track of movement and any failed forwards or backwards, execute at the end to make sure you return to the same position
+os.loadAPI("blockUtils")
 
 function forward()
     turtle.dig()
@@ -32,6 +33,8 @@ function digExpandingSquares(times)
     for i=1,times do
         digAround(i)
     end
+
+    blockUtils.removeNonBuildableItems()
 end
 
 function tryDown()

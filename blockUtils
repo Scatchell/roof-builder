@@ -1,3 +1,25 @@
 function isValidBlockType(blockName)
     return (blockName == "minecraft:dirt" or blockName == "minecraft:cobblestone" or blockName == "minecraft:stone")
 end
+
+function removeNonBuildableItems()
+    for slot=1,16 do
+        turtle.select(slot)
+        if not slotItemIsBuildable(slot) then
+            print('Slot ', slot, ' is not buildable, dropping')
+            turtle.drop()
+        end
+    end
+
+    turtle.select(1)
+end
+
+function slotItemIsBuildable(slot)
+    if turtle.getItemDetail(slot) == nil then
+        return false
+    else
+        local slotItemName = turtle.getItemDetail(slot)['name']
+        return (isValidBlockType(slotItemName))
+    end
+end
+

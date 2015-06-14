@@ -20,12 +20,8 @@ end
 
 function buildableBlockBelow()
     local blockExists, blockDetails = turtle.inspectDown()
-    print(blockExists)
-    if not blockExists then
-        return false
-    else
+    if not blockExists then return false else
         local blockName = blockDetails['name']
-        print(blockName)
         return (blockUtils.isValidBlockType(blockName))
     end
 end
@@ -56,11 +52,17 @@ end
 
 function returnToOriginalPosition()
     for i=1,blocksMoved['d'] do
-        turtle.digUp()
-        turtle.up()
+        local moved = turtle.up()
+        while not moved do
+            turtle.digUp()
+            moved = turtle.up()
+        end
     end
 
     for i=1,blocksMoved['f'] do
-        turtle.back()
+        local moved = turtle.back()
+        while not moved do
+            moved = turtle.back()
+        end
     end
 end
